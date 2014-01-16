@@ -1,0 +1,6 @@
+name = Ding user profile
+description = Enrich site-experience of Ding! users.
+version = 7.x-0.1
+core = 7.x
+package = Ding!
+dependencies[] = alma

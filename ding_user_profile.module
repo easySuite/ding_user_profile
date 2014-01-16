@@ -1,0 +1,66 @@
+<?php
+/**
+ * @file
+ * Profile extensive features main file.
+ */
+/**
+ * Implements hook_menu().
+ */
+function ding_user_profile_menu() {
+  $menu = array();
+
+  $menu['admin/config/ding/user_profile'] = array(
+    'title' => 'Ding user profile',
+    'description' => 'Manage the user profile features',
+    'access arguments' => array('manage user profile features'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_user_profile_admin_form'),
+    'file' => 'ding_user_profile.admin.inc',
+  );
+
+  return $menu;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_user_profile_permission() {
+  $perm = array();
+
+  $perm['manage user profile features'] = array(
+    'title' => t('User profile features'),
+  );
+
+  return $perm;
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * This will override the description in some specific manner.
+ *
+ * Since the fields have slightly different structure, #suffix is used
+ * instead. Standard #description is blanked and not used here.
+ *
+ * Especially this counts for date-select fields, where #description is used
+ * as a field #title.
+ */
+function ding_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'user_profile_form') {
+    $standard_fields = array('pincode', 'mail');
+
+    foreach ($standard_fields as $field) {
+      $description = variable_get('user_profile_' . $field, '');
+      $form['account'][$field]['#suffix'] = '<div class="description">' . t($description) . '</div>';
+      $form['account'][$field]['#description'] = '';
+    }
+
+    $profile = 'profile_' . 'provider_alma';
+
+    foreach (element_children($form[$profile]) as $element) {
+      $description = variable_get('user_profile_' . $element, '');
+      $form[$profile][$element][LANGUAGE_NONE]['#suffix'] = '<div class="description">' . t($description) . '</div>';
+      $form[$profile][$element][LANGUAGE_NONE]['#description'] = '';
+    }
+  }
+}
