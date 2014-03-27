@@ -46,10 +46,13 @@ function ding_user_profile_permission() {
  * as a field #title.
  */
 function ding_user_profile_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'user_profile_form') {
+  if ($form_id == 'profile2_edit_provider_alma_form') {
     $standard_fields = array('pincode', 'mail');
 
     foreach ($standard_fields as $field) {
+      if (empty($form['account'][$field])) {
+        continue;
+      }
       $description = variable_get('user_profile_' . $field, '');
       $form['account'][$field]['#suffix'] = '<div class="description">' . t($description) . '</div>';
       $form['account'][$field]['#description'] = '';
@@ -58,6 +61,10 @@ function ding_user_profile_form_alter(&$form, &$form_state, $form_id) {
     $profile = 'profile_' . 'provider_alma';
 
     foreach (element_children($form[$profile]) as $element) {
+      // Skip hidden fields.
+      if (in_array('field-widget-hidden', $form[$profile][$element]['#attributes']['class'])) {
+        continue;
+      }
       $description = variable_get('user_profile_' . $element, '');
       $form[$profile][$element][LANGUAGE_NONE]['#suffix'] = '<div class="description">' . t($description) . '</div>';
       $form[$profile][$element][LANGUAGE_NONE]['#description'] = '';
