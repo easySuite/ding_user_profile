@@ -54,7 +54,10 @@ function ding_user_profile_form_alter(&$form, &$form_state, $form_id) {
         continue;
       }
       $description = variable_get('user_profile_' . $field, '');
-      $form['account'][$field]['#suffix'] = '<div class="description">' . t($description) . '</div>';
+      if (empty($form['account'][$field]['#suffix'])) {
+        $form['account'][$field]['#suffix'] = '';
+      }
+      $form['account'][$field]['#suffix'] .= '<div class="description">' . t($description) . '</div>';
       $form['account'][$field]['#description'] = '';
     }
 
@@ -66,7 +69,10 @@ function ding_user_profile_form_alter(&$form, &$form_state, $form_id) {
         continue;
       }
       $description = variable_get('user_profile_' . $element, '');
-      $form[$profile][$element][LANGUAGE_NONE]['#suffix'] = '<div class="description">' . t($description) . '</div>';
+      if (empty($form[$profile][$element][LANGUAGE_NONE]['#suffix'])) {
+        $form[$profile][$element][LANGUAGE_NONE]['#suffix'] = '';
+      }
+      $form[$profile][$element][LANGUAGE_NONE]['#suffix'] .= '<div class="description">' . t($description) . '</div>';
       $form[$profile][$element][LANGUAGE_NONE]['#description'] = '';
     }
   }
