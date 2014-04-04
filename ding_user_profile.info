@@ -4,4 +4,4 @@ version = 7.x-1.19
 core = 7.x
 package = easyDDB
 dependencies[] = alma
-; files[] = tests/ding_user_profile.test
+files[] = tests/ding_user_profile.test

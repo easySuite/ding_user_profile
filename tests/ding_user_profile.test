@@ -25,6 +25,23 @@ class DingUserProfileTestCase extends DrupalWebTestCase {
    */
   protected $alma_url = 'https://bibliotek.taarnby.dk:8000/alma/';
 
+  protected $fields = array(
+    'user_profile_pincode',
+    'user_profile_mail',
+    'user_profile_field_alma_absent_id',
+    'user_profile_field_alma_city',
+    'user_profile_field_alma_full_name',
+    'user_profile_field_alma_interest_period',
+    'user_profile_field_alma_mail',
+    'user_profile_field_alma_mobile_phone',
+    'user_profile_field_alma_phone_id',
+    'user_profile_field_alma_postal_code',
+    'user_profile_field_alma_preferred_branch',
+    'user_profile_field_alma_reservation_pause',
+    'user_profile_field_alma_street_name',
+  );
+  protected $post = array();
+
   public static function getInfo() {
     return array(
       'name' => t('Ding User Profile tests'),
@@ -39,42 +56,86 @@ class DingUserProfileTestCase extends DrupalWebTestCase {
   public function setUp() {
     $this->profile = 'ding2';
 
-    parent::setUp('alma', 'ding_user_profile');
+    parent::setUp();
+    // Had to enable them all to make the test work properly.
+    $modules = array(
+      'flag',
+      'ding_availability',
+      'ding_periodical',
+      'ting_covers',
+      'ting_relation',
+      'ding_user_profile',
+    );
+
+    // Check if modules could be enabled.
+    foreach ($modules as $module) {
+      $this->assertTrue(
+        module_enable(array($module), TRUE),
+        "Could not enable module " . $module
+      );
+    }
+    // Disable, causes issues.
+    module_disable(array('cookiecontrol'));
+    // Reset all caches.
+    $this->resetAll();
 
     // Test library URL.
     variable_set('alma_base_url', $this->alma_url);
+
+    // Set test data.
+    foreach ($this->fields as $field) {
+      $this->post[$field] = $this->randomString();
+    }
+
   }
 
   public function testAdminUI() {
-    $admin = $this->drupalCreateUser(array('administer ding provider', 'manage user profile features'));
+    // Login ad admin.
+    $admin = $this->drupalCreateUser(
+      array('administer ding provider', 'manage user profile features')
+    );
     $this->drupalLogin($admin);
 
-    $this->drupalGet($this->getAbsoluteUrl('admin/config/ding/user_profile'));
-    $this->assertText(t('The following fields will contain the description supplied below, however they might be hidden.'));
-  }
+    // See if we are on correct page.
+    $url = 'admin/config/ding/user_profile';
+    $this->drupalGet($url);
+    $this->assertText(
+      t(
+        'The following fields will contain the description supplied below, however they might be hidden.'
+      )
+    );
 
-  /*
-  @todo Finish test when login works.
+    // Set ding_user_profile values.
+    $this->drupalPost($url, $this->post, t('Save configuration'));
+
+    // Test saved data.
+    foreach ($this->post as $variable => $expected_value) {
+      $value = variable_get($variable);
+      $this->assertEqual(
+        $expected_value,
+        $value,
+        "Variable $variable has wrong value"
+      );
+    }
+
+    $this->drupalLogout();
+  }
+/*
+@todo Fix this test.
+
   public function testUserEditProfile() {
-    $this->drupalPost('user/login', $this->user_credentials, t('Log in'));
+    $this->drupalPost('user/edit', $this->user_credentials, t('Log in'));
 
-    $this->assertResponse(302);
-    $this->assertUrl('users/team-oplevelse');
+    $user = db_select('users', 'u')
+      ->fields('u')
+      ->orderBy('uid', 'desc')
+      ->execute()
+      ->fetchAssoc();
+
+    $this->drupalGet('user/' . $user['uid'] . '/edit');
+    foreach ($this->post as $field => $value) {
+      $this->assertText($value, "Field $field is not shown");
+    }
   }
-
-  Fields:
-  user_profile_pincode
-  user_profile_mail
-  user_profile_field_alma_absent_id
-  user_profile_field_alma_city
-  user_profile_field_alma_full_name
-  user_profile_field_alma_interest_period
-  user_profile_field_alma_mail
-  user_profile_field_alma_mobile_phone
-  user_profile_field_alma_phone_id
-  user_profile_field_alma_postal_code
-  user_profile_field_alma_preferred_branch
-  user_profile_field_alma_reservation_pause
-  user_profile_field_alma_street_name
-  */
+*/
 }
