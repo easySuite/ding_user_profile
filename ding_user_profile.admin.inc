@@ -26,16 +26,17 @@ function ding_user_profile_admin_form($form, $form_state) {
   // These fields are standard in drupal.
   // The use edit form has fields which cannot be edited.
   $standard_fields = array(
-    'pincode' => array(
+    'pass' => array(
       'label' => 'pincode',
-    ),
-    'mail' => array(
-      'label' => 'email',
     ),
   );
 
   // Provider fields.
   foreach ($standard_fields + $instances  as $key => $instance) {
+    if (isset($instances[$key]) && $instances[$key]['widget']['type'] == 'hidden') {
+      continue;
+    }
+
     $field = 'user_profile_' . $key;
     $form[$field] = array(
       '#type' => 'textarea',
