@@ -106,13 +106,5 @@ class DingUserProfileTestCase extends DrupalWebTestCase {
     foreach ($this->post as $key => $value) {
       $this->assertText($value, "Field $key has no description.");
     }
-
-    $h = fopen(dirname(__FILE__) . '/1.log', 'w+');
-    fwrite($h, $this->drupalGetContent());
-    fclose($h);
-
-    $h = fopen(dirname(__FILE__) . '/2.log', 'w+');
-    fwrite($h, print_r($this->post, TRUE));
-    fclose($h);
   }
 }
