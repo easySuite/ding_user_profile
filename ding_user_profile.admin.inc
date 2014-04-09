@@ -42,7 +42,7 @@ function ding_user_profile_admin_form($form, $form_state) {
       '#type' => 'textarea',
       '#rows' => 2,
       '#title' => ucfirst($instance['label']),
-      '#default_value' => variable_get($field, ''),
+      '#default_value' => t(variable_get($field, '')),
     );
   }
 
