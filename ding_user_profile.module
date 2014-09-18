@@ -1,8 +1,10 @@
 <?php
+
 /**
  * @file
  * Profile extensive features main file.
  */
+
 /**
  * Implements hook_menu().
  */
@@ -45,22 +47,32 @@ function ding_user_profile_permission() {
  * Especially this counts for date-select fields, where #description is used
  * as a field #title.
  */
-function ding_user_profile_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'user_profile_form') {
-    $standard_fields = array('pincode', 'mail');
+function ding_user_profile_form_profile2_form_alter(&$form, &$form_state) {
+  global $user;
 
-    foreach ($standard_fields as $field) {
-      $description = variable_get('user_profile_' . $field, '');
-      $form['account'][$field]['#suffix'] = '<div class="description">' . t($description) . '</div>';
-      $form['account'][$field]['#description'] = '';
-    }
+  if (ding_user_is_provider_user($user)) {
+    $profile_type = ding_user_get_provider_profile_type();
 
-    $profile = 'profile_' . 'provider_alma';
+    if ($form_state['profile2']->type == $profile_type->type) {
+      $description = variable_get('user_profile_pass', '');
 
-    foreach (element_children($form[$profile]) as $element) {
-      $description = variable_get('user_profile_' . $element, '');
-      $form[$profile][$element][LANGUAGE_NONE]['#suffix'] = '<div class="description">' . t($description) . '</div>';
-      $form[$profile][$element][LANGUAGE_NONE]['#description'] = '';
+      $form['pass']['#suffix'] = '<div class="description">' . t($description) . '</div>';
+      $form['pass']['#description'] = '';
+
+      $profile = 'profile_' . $profile_type->type;
+
+      foreach (element_children($form[$profile]) as $element) {
+        // Skip hidden fields.
+        if (in_array('field-widget-hidden', $form[$profile][$element]['#attributes']['class'])) {
+          continue;
+        }
+        $description = variable_get('user_profile_' . $element, '');
+        if (empty($form[$profile][$element][LANGUAGE_NONE]['#suffix'])) {
+          $form[$profile][$element][LANGUAGE_NONE]['#suffix'] = '';
+        }
+        $form[$profile][$element][LANGUAGE_NONE]['#suffix'] .= '<div class="description">' . t($description) . '</div>';
+        $form[$profile][$element][LANGUAGE_NONE]['#description'] = '';
+      }
     }
   }
 }

@@ -1,0 +1,110 @@
+<?php
+/**
+ * @file
+ * ding_user_profile.test
+ */
+
+/**
+ * Ding User Profile tests.
+ */
+class DingUserProfileTestCase extends DrupalWebTestCase {
+  /**
+   * Test user credentials.
+   *
+   * @var array
+   */
+  protected $user_credentials = array(
+    'name' => '1111111118',
+    'pass' => '0000',
+  );
+
+  /**
+   * Test ALMA URL.
+   *
+   * @var string
+   */
+  protected $alma_url = 'https://bibliotek.taarnby.dk:8000/alma/';
+
+  protected $fields = array(
+    'user_profile_field_alma_preferred_branch',
+    'user_profile_field_alma_interest_period',
+    'user_profile_field_alma_reservation_pause',
+    'user_profile_field_alma_mail',
+    'user_profile_field_alma_mobile_phone',
+    'user_profile_pass',
+  );
+  protected $post = array();
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding User Profile tests',
+      'description' => 'Run tests for ding_user_profile.',
+      'group' => 'easyDDB',
+    );
+  }
+
+  /**
+   * Set up test.
+   */
+  public function setUp() {
+    $this->profile = 'ding2';
+
+    parent::setUp('alma', 'ding_user_profile');
+    // Disable, causes issues.
+    module_disable(array('cookiecontrol'));
+
+    // Test library URL.
+    variable_set('alma_base_url', $this->alma_url);
+
+    // Set test data.
+    foreach ($this->fields as $field) {
+      $this->post[$field] = $this->randomString();
+    }
+  }
+
+  public function testAdminUI() {
+    $admin = $this->drupalCreateUser(array(
+      'manage user profile features'
+    ));
+    $this->drupalLogin($admin);
+
+    foreach ($this->post as $variable => $value) {
+      $value = variable_set($variable, $value);
+    }
+
+    $this->drupalGet('admin/config/ding/user_profile');
+    $this->assertText(t('The following fields will contain the description supplied below, however they might be hidden.'));
+
+    // Test saved data.
+    foreach ($this->post as $variable => $expected_value) {
+      $value = variable_get($variable);
+      $this->assertEqual($expected_value, $value, "Variable $variable has wrong value");
+    }
+
+    $this->drupalLogout();
+  }
+
+  public function testUserEditProfile() {
+    $this->drupalPost('user', $this->user_credentials, t('Log in'));
+
+    foreach ($this->post as $variable => $value) {
+      $value = variable_set($variable, $value);
+    }
+
+    $user = db_select('users', 'u')
+      ->fields('u')
+      ->orderBy('uid', 'desc')
+      ->execute()
+      ->fetchAssoc();
+
+    $this->drupalGet('user/' . $user['uid'] . '/view');
+    $this->assertText('Your user loan status');
+
+    $this->drupalGet('user/' . $user['uid'] . '/edit');
+    $this->assertText(t('Profile for Alma'));
+
+    foreach ($this->post as $key => $value) {
+      $this->assertText($value, "Field $key has no description.");
+    }
+  }
+}
