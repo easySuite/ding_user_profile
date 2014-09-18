@@ -1,8 +1,7 @@
 name = Ding user profile
 description = Enrich site-experience of Ding! users.
-version = 7.x-1.19
+version = 7.x-1.0
 core = 7.x
 package = easyDDB
 dependencies[] = alma
 files[] = ding_user_profile.test
->>>>>>> case-3971
