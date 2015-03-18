@@ -1,0 +1,46 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  ding_user_profile.admin.inc: n/a
+#  ding_user_profile.module: n/a
+#  ding_user_profile.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-02-19 16:13+0100\n"
+"PO-Revision-Date: 2015-02-20 15:09+0100\n"
+"Last-Translator: Martin Cording <mc@inlead.dk>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Language: da\n"
+"X-Generator: Poedit 1.7.4\n"
+
+#: ding_user_profile.admin.inc:23
+msgid "The following fields will contain the description supplied below, however they might be hidden."
+msgstr "Felterne vil indeholde beskrivelserne forneden, men de er muligvis skjult."
+
+#: ding_user_profile.module:33
+msgid "User profile features"
+msgstr "Hjælpetekst til brugerprofil"
+
+#: ding_user_profile.module:15 ding_user_profile.info:0
+msgid "Ding user profile"
+msgstr "Hjælpetekst til brugerprofil"
+
+#: ding_user_profile.module:16
+msgid "Manage the user profile features"
+msgstr "Administrér hjælpetekst til brugerprofil"
+
+#: ding_user_profile.info:0
+msgid "Enrich site-experience of Ding! users."
+msgstr "Gør livet lettere for brugerne."
+
+#: ding_user_profile.info:0
+msgid "easyDDB"
+msgstr ""
