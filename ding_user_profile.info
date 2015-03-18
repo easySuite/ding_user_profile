@@ -1,6 +1,6 @@
 name = Ding user profile
 description = Enrich site-experience of Ding! users.
-version = 7.x-1.0.1
+version = 7.x-2.0.0
 core = 7.x
 package = easyDDB
 dependencies[] = alma
