@@ -3,15 +3,15 @@
 # LANGUAGE translation of Drupal (general)
 # Copyright YEAR NAME <EMAIL@ADDRESS>
 # Generated from files:
-#  ding_user_profile.admin.inc: n/a
-#  ding_user_profile.module: n/a
-#  ding_user_profile.info: n/a
+#  profiles/ding2/modules/ding_user_profile/ding_user_profile.admin.inc: n/a
+#  profiles/ding2/modules/ding_user_profile/ding_user_profile.module: n/a
+#  profiles/ding2/modules/ding_user_profile/ding_user_profile.info: n/a
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-02-19 16:13+0100\n"
+"POT-Creation-Date: 2015-07-28 11:16+0300\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -20,27 +20,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ding_user_profile.admin.inc:23
+#: profiles/ding2/modules/ding_user_profile/ding_user_profile.admin.inc:23
 msgid "The following fields will contain the description supplied below, however they might be hidden."
 msgstr ""
 
-#: ding_user_profile.module:33
+#: profiles/ding2/modules/ding_user_profile/ding_user_profile.module:33
 msgid "User profile features"
 msgstr ""
 
-#: ding_user_profile.module:15 ding_user_profile.info:0
+#: profiles/ding2/modules/ding_user_profile/ding_user_profile.module:15 profiles/ding2/modules/ding_user_profile/ding_user_profile.info:0
 msgid "Ding user profile"
 msgstr ""
 
-#: ding_user_profile.module:16
+#: profiles/ding2/modules/ding_user_profile/ding_user_profile.module:16
 msgid "Manage the user profile features"
 msgstr ""
 
-#: ding_user_profile.info:0
+#: profiles/ding2/modules/ding_user_profile/ding_user_profile.info:0
 msgid "Enrich site-experience of Ding! users."
 msgstr ""
 
-#: ding_user_profile.info:0
+#: profiles/ding2/modules/ding_user_profile/ding_user_profile.info:0
 msgid "easyDDB"
 msgstr ""
 
