@@ -16,7 +16,8 @@
  *   The form itself.
  */
 function ding_user_profile_admin_form($form, $form_state) {
-  $instances = field_info_instances('profile2', 'provider_alma');
+  $ding_provider = ding_provider_get_provider_module_name('user');
+  $instances = field_info_instances('profile2', 'provider_' . $ding_provider);
 
   $form['user_profile_note'] = array(
     '#type' => 'item',
