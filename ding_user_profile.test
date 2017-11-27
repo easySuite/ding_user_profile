@@ -39,7 +39,7 @@ class DingUserProfileTestCase extends DrupalWebTestCase {
     return array(
       'name' => 'Ding User Profile tests',
       'description' => 'Run tests for ding_user_profile.',
-      'group' => 'easyDDB',
+      'group' => 'easyOPAC',
     );
   }
 

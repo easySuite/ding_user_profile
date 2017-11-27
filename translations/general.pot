@@ -41,6 +41,6 @@ msgid "Enrich site-experience of Ding! users."
 msgstr ""
 
 #: ding_user_profile.info:0
-msgid "easyDDB"
+msgid "easyOPAC"
 msgstr ""
 
